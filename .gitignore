@@ -1,4 +1,8 @@
+# For R
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
+
+# For Python
+.venv
