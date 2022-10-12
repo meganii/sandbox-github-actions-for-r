@@ -1,0 +1,19 @@
+name: Scheduled plot
+
+on:
+  schedule:
+    - cron: 1 18 * * *
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Date
+        env:
+          TZ: "Asia/Tokyo"
+        run: echo "CURRENT_DATETIME=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
