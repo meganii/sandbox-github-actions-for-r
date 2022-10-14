@@ -23,7 +23,9 @@ jobs:
         with:
           r-version: '4.2.1' # The R version to download (if necessary) and use.
   
-      - uses: r-lib/actions/setup-r-dependencies@v1
+      - name: Install dependencies
+        run: |
+          sudo apt -y install libcurl4-openssl-dev libssl-dev zlib1g-dev libxml2-dev libpng-dev libjpeg-dev
 
       - uses: r-lib/actions/setup-renv@v2
       - run: Rscript -e 'print("hello")'
