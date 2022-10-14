@@ -15,12 +15,14 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt -y install libcurl4-openssl-dev libssl-dev zlib1g-dev libxml2-dev libpng-dev libjpeg-dev libmagick++-dev
+          sudo apt -y install libcurl4-openssl-dev libssl-dev zlib1g-dev libxml2-dev libpng-dev libjpeg-dev libmagick++-dev fonts-ipafont
+
+      - name: Update font cache
+        run: fc-list | grep -i ipa
 
       - name: Set RENV_PATHS_ROOT
         shell: bash
-        run: |
-          echo "RENV_PATHS_ROOT=${{ runner.temp }}/renv" >> $GITHUB_ENV
+        run: echo "RENV_PATHS_ROOT=${{ runner.temp }}/renv" >> $GITHUB_ENV
 
       - uses: actions/setup-python@v4
         with:
