@@ -126,6 +126,33 @@
       "Hash": "15e9634c0fcd294799e9b2e929ed1b86",
       "Requirements": []
     },
+    "ggfun": {
+      "Package": "ggfun",
+      "Version": "0.0.7",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "293dc88848ef6ca5266b0dbbac3ca934",
+      "Requirements": [
+        "ggplot2",
+        "rlang"
+      ]
+    },
+    "ggimage": {
+      "Package": "ggimage",
+      "Version": "0.3.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "a7919e11761293f25eeb1562d3e4342a",
+      "Requirements": [
+        "ggfun",
+        "ggplot2",
+        "ggplotify",
+        "jsonlite",
+        "magick",
+        "scales",
+        "tibble"
+      ]
+    },
     "ggplot2": {
       "Package": "ggplot2",
       "Version": "3.3.6",
@@ -143,6 +170,18 @@
         "scales",
         "tibble",
         "withr"
+      ]
+    },
+    "ggplotify": {
+      "Package": "ggplotify",
+      "Version": "0.1.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "acbcedf783cdb8710168aa0edba42ac0",
+      "Requirements": [
+        "ggplot2",
+        "gridGraphics",
+        "yulab.utils"
       ]
     },
     "ggtext": {
@@ -164,6 +203,14 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "4f2596dfb05dac67b9dc558e5c6fba2e",
+      "Requirements": []
+    },
+    "gridGraphics": {
+      "Package": "gridGraphics",
+      "Version": "0.5-1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "5b79228594f02385d4df4979284879ae",
       "Requirements": []
     },
     "gridtext": {
@@ -207,6 +254,14 @@
       "Hash": "441ee36360a57b363f4fa3df0c364630",
       "Requirements": []
     },
+    "jsonlite": {
+      "Package": "jsonlite",
+      "Version": "1.8.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "2e7ed071fd6bd047fe2366d3adf4fe46",
+      "Requirements": []
+    },
     "labeling": {
       "Package": "labeling",
       "Version": "0.4.2",
@@ -233,6 +288,18 @@
         "cli",
         "glue",
         "rlang"
+      ]
+    },
+    "magick": {
+      "Package": "magick",
+      "Version": "2.7.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "56fbad418aa50939ed8c3028126af8d7",
+      "Requirements": [
+        "Rcpp",
+        "curl",
+        "magrittr"
       ]
     },
     "magrittr": {
@@ -459,6 +526,14 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "40682ed6a969ea5abfd351eb67833adc",
+      "Requirements": []
+    },
+    "yulab.utils": {
+      "Package": "yulab.utils",
+      "Version": "0.0.5",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "5727ef3682ea54af05114ef993b99812",
       "Requirements": []
     }
   }

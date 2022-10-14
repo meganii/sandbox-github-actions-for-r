@@ -82,7 +82,7 @@ def prepareImages(icons):
                 url = "https://scrapbox.io/api/pages/villagepump/" + \
                     urllib.parse.quote(icon) + "/icon"
             print(url)
-            downloadFile(url, "./R/icons/" + icon + ".png")
+            downloadFile(url, "./icons/" + icon + ".png")
         except:
             print(icon, "error")
 
@@ -91,7 +91,7 @@ def main():
     # Create data for Ganttchart
     sbText = getSbText()
     df = getTimelineDataFrameFromSbText(sbText)
-    df.to_csv("./R/data.csv", index=False)
+    df.to_csv("./data.csv", index=False)
 
     # Prepare icon png
     prepareImages(df["Name"].unique())
