@@ -46,7 +46,14 @@ jobs:
 
       - name: Run RScript
         run: Rscript plot.R
-    
+      
+      - name: Diff
+        id: diff
+        run: |
+          git add -N .
+          git diff --name-only --exit-code
+        continue-on-error: true
+      
       - name: Commit files
         run: |
           set -x
@@ -55,6 +62,7 @@ jobs:
           git add images
           git commit -m "Update"
           git push
+        if: steps.diff.outcome == 'failure'
 
       - name: Restore Renv package cache
         uses: actions/cache@v3
