@@ -13,9 +13,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Update
+        run: sudo apt-get update
+
       - name: Install dependencies
-        run: |
-          sudo apt -y install libcurl4-openssl-dev libssl-dev zlib1g-dev libxml2-dev libpng-dev libjpeg-dev libmagick++-dev fonts-ipafont
+        run: sudo apt -y install libcurl4-openssl-dev libssl-dev zlib1g-dev libxml2-dev libpng-dev libjpeg-dev libmagick++-dev fonts-ipafont
 
       - name: Update font cache
         run: fc-list | grep -i ipa
