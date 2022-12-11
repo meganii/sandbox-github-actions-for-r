@@ -1,0 +1,64 @@
+name: Scheduled plot
+
+on:
+  schedule:
+    - cron: 3 1 * * *
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt -y install r-base-dev fonts-ipafont 
+
+      - name: Update font cache
+        run: fc-list | grep -i ipa
+
+      - name: Set RENV_PATHS_ROOT
+        shell: bash
+        run: echo "RENV_PATHS_ROOT=${{ runner.temp }}/renv" >> $GITHUB_ENV
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.2.1' # The R version to download (if necessary) and use.
+
+      - uses: r-lib/actions/setup-renv@v2
+
+      - name: Set Date
+        env:
+          TZ: "Asia/Tokyo"
+        run: echo "CURRENT_DATETIME=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+      - name: Run RScript
+        run: Rscript plot_stats.R
+      
+      - name: Diff
+        id: diff
+        run: |
+          git add -N .
+          git diff --name-only --exit-code
+        continue-on-error: true
+      
+      - name: Commit files
+        run: |
+          set -x
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add images
+          git commit -m "Update"
+          git push
+        if: steps.diff.outcome == 'failure'
+
+      - name: Restore Renv package cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.RENV_PATHS_ROOT }}
+          key: ${{ steps.get-version.outputs.os-version }}-${{ steps.get-version.outputs.r-version }}-${{ inputs.cache-version }}-${{ hashFiles('renv.lock') }}
+          restore-keys: ${{ steps.get-version.outputs.os-version }}-${{ steps.get-version.outputs.r-version }}-${{inputs.cache-version }}-
