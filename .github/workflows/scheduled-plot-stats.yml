@@ -1,4 +1,4 @@
-name: Scheduled stats plot
+name: Scheduled plot for stats
 
 on:
   schedule:
