@@ -75,7 +75,7 @@ Grid_Fig2 <- ggplot(month_counts, aes(month, n)) +
 Grid_Fig1 <- ggplot(df, aes(created, page_num)) +
   geom_line() +
   geom_point(data= df2, aes(x = created, y = page_num), colour = "red3") +
-  scale_y_continuous(breaks = seq(from=0, to=13000, by=1000)) +
+  scale_y_continuous(breaks = seq(from=0, to=max(df2$page_num)+1000, by=1000)) +
   scale_x_date(
     expand = c(0,0),            # 両端の余分なスペースを削除
     date_breaks = "1 month",    # 1ヶ月ごとに軸ラベルを表示する
@@ -84,7 +84,9 @@ Grid_Fig1 <- ggplot(df, aes(created, page_num)) +
   xlab("") +
   labs(title = "Total pages")
 
-xlimits <- coord_cartesian(xlim = c(ymd('2020-01-01'), ymd('2023-01-01'))) # xlim() はNG
+min_month <- min(month_counts$month)
+max_month <- max(month_counts$month) + months(1)
+xlimits <- coord_cartesian(xlim = c(min_month, max_month)) # xlim() はNG
 p <- wrap_plots(Grid_Fig1 + xlimits, Grid_Fig2 + xlimits, nrow = 2)
 
 ## Save to png
