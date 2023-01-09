@@ -18,8 +18,7 @@ def getSbText():
 
 
 def getUsersFromSbText(text):
-    users = text.split('.icon]')
-    users = [user.replace('[', '') for user in users if user != '']
+    users = re.findall('\[([^\]]*?)\.icon\]', text)
     return users
 
 
