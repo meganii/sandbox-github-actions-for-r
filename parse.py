@@ -1,7 +1,6 @@
 import re
 import requests
 import pandas as pd
-import calendar
 
 import urllib
 
@@ -26,7 +25,6 @@ def getTimelineDataFrameFromSbText(text):
     # Data frame
     dfName = []
     dfStart = []
-    dfEnd = []
 
     result = re.finditer(r'^\[?(\d{4}/\d{2})\]?(.*)$', text, re.MULTILINE)
     for m in result:
@@ -38,16 +36,13 @@ def getTimelineDataFrameFromSbText(text):
         d = m[1].split('/')
         year = int(d[0])
         month = int(d[1])
-        endDay = calendar.monthrange(year, month)[1]
 
         users = getUsersFromSbText(m[2])
         for username in users:
             dfName.append(username)
             dfStart.append(f"{year}-{month}-01")
-            dfEnd.append(f"{year}-{month}-{endDay}")
 
-    return pd.DataFrame({'Name': dfName, 'Start': dfStart,
-                         "End": dfEnd}, columns=['Name', 'Start', 'End'])
+    return pd.DataFrame({'Name': dfName, 'Date': dfStart}, columns=['Name', 'Date'])
 
 
 def downloadFile(url, dst_path):
