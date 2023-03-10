@@ -44,28 +44,6 @@ def getTimelineDataFrameFromSbText(text):
 
     return pd.DataFrame({'Name': dfName, 'Date': dfStart}, columns=['Name', 'Date'])
 
-
-def downloadFile(url, dst_path):
-    try:
-        header = {
-            "Accept": "*/*",
-            "Accept-Encoding": "gzip, deflate",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
-        }
-        with requests.get(url, headers=header, stream=True) as res:
-            type = res.headers["content-type"]
-            with open(dst_path, "wb") as f:
-                [f.write(chunk)
-                 for chunk in res.iter_content(chunk_size=1024) if chunk]
-
-            if type == "image/jpeg" or type == "image/gif":
-                im = Image.open(dst_path)
-                im.save(dst_path)
-    except requests.exceptions.RequestException as e:
-        print(e)
-
-
 def prepareImages(icons):
     for icon in icons:
         try:
@@ -79,6 +57,34 @@ def prepareImages(icons):
             downloadFile(url, "./icons/" + icon + ".png")
         except:
             print(icon, "error")
+
+def downloadFile(url, dst_path):
+    try:
+        header = {
+            "Accept": "*/*",
+            "Accept-Encoding": "gzip, deflate",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+        }
+        res = requests.get(url, headers=header)
+        if res.status_code == 200:
+            fetchAndSaveImage(url, header, dst_path)
+        else:
+            fetchAndSaveImage("https://i.gyazo.com/ea4de850589bc5e41d6c6ee944361fb6.png", header, dst_path)
+
+    except requests.exceptions.RequestException as e:
+        print(e)
+
+def fetchAndSaveImage(url, header, dst_path):
+    with requests.get(url, headers=header, stream=True) as res:
+        type = res.headers["content-type"]
+        with open(dst_path, "wb") as f:
+            [f.write(chunk)
+            for chunk in res.iter_content(chunk_size=1024) if chunk]
+
+        if type == "image/jpeg" or type == "image/gif":
+            im = Image.open(dst_path)
+            im.save(dst_path)
 
 
 def main():
