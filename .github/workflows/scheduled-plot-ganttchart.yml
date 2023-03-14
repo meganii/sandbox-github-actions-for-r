@@ -51,7 +51,7 @@ jobs:
       - name: Diff
         id: diff
         run: |
-          git add -N .
+          git add -N images
           git diff --name-only --exit-code
         continue-on-error: true
       
