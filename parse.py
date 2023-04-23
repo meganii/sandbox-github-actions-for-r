@@ -83,7 +83,7 @@ def fetchAndSaveImage(url, header, dst_path):
             for chunk in res.iter_content(chunk_size=1024) if chunk]
 
         if type == "image/jpeg" or type == "image/gif":
-            im = Image.open(dst_path)
+            im = Image.open(dst_path).convert('RGB')
             im.save(dst_path)
 
 
