@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt -y install r-base-dev fonts-ipafont 
+          sudo apt -y install r-base-dev libmagick++-dev fonts-ipafont 
 
       - name: Update font cache
         run: fc-list | grep -i ipa
