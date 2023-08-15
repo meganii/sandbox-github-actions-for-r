@@ -1,6 +1,7 @@
 import re
 import requests
 import pandas as pd
+import cairosvg
 
 import urllib
 
@@ -47,12 +48,8 @@ def getTimelineDataFrameFromSbText(text):
 def prepareImages(icons):
     for icon in icons:
         try:
-            url = ""
-            if icon == 'takker':
-                url = "https://i.gyazo.com/9848f337a8da5505e8b11800fb919cd6.png"
-            else:
-                url = "https://scrapbox.io/api/pages/villagepump/" + \
-                    urllib.parse.quote(icon) + "/icon"
+            url = "https://scrapbox.io/api/pages/villagepump/" + \
+                    urllib.parse.quote(icon) + "/icon"    
             print(url)
             downloadFile(url, "./icons/" + icon + ".png")
         except:
@@ -78,13 +75,17 @@ def downloadFile(url, dst_path):
 def fetchAndSaveImage(url, header, dst_path):
     with requests.get(url, headers=header, stream=True) as res:
         type = res.headers["content-type"]
-        with open(dst_path, "wb") as f:
-            [f.write(chunk)
-            for chunk in res.iter_content(chunk_size=1024) if chunk]
 
-        if type == "image/jpeg" or type == "image/gif":
-            im = Image.open(dst_path).convert('RGB')
-            im.save(dst_path)
+        if type.startswith("image/svg+xml"):
+            cairosvg.svg2png(url=url, write_to=dst_path)
+        else:
+            with open(dst_path, "wb") as f:
+                [f.write(chunk)
+                for chunk in res.iter_content(chunk_size=1024) if chunk]
+
+            if type == "image/jpeg" or type == "image/gif":
+                im = Image.open(dst_path).convert('RGB')
+                im.save(dst_path)
 
 
 def main():
