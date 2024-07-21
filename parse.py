@@ -67,7 +67,8 @@ def downloadFile(url, dst_path):
         if res.status_code == 200:
             fetchAndSaveImage(url, header, dst_path)
         else:
-            fetchAndSaveImage("https://i.gyazo.com/ea4de850589bc5e41d6c6ee944361fb6.png", header, dst_path)
+            # who icon
+            fetchAndSaveImage("https://scrapbox.io/api/pages/villagepump/who/icon", header, dst_path)
 
     except requests.exceptions.RequestException as e:
         print(e)
