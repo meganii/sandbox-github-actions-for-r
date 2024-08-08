@@ -35,7 +35,7 @@ p <- ggplot(df2, aes(Date, Name)) +
   )) +
   geom_image(data = orderedName,
              aes(x = Date, y = Name, image = Image),
-             size = 0.015) +
+             size = 0.010) +
   geom_text(
     data = orderedName,
     aes(
@@ -65,7 +65,7 @@ p <- ggplot(df2, aes(Date, Name)) +
 ggsave(
   file = "./images/activeusers.png",
   plot = p,
-  dpi = 100,
-  width = 8,
-  height = 8
+  dpi = 300,
+  width = 10,
+  height = 10
 )
