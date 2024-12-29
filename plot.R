@@ -62,10 +62,19 @@ p <- ggplot(df2, aes(Date, Name)) +
     panel.grid.major.y = element_blank()
   )
 
+
 ggsave(
   file = "./images/activeusers.png",
   plot = p,
   dpi = 300,
+  width = 10,
+  height = 10
+)
+
+ggsave(
+  file = "./images/activeusers_thumb.png",
+  plot = p,
+  dpi = 72,
   width = 10,
   height = 10
 )
