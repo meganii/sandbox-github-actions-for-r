@@ -18,7 +18,7 @@ def getSbText():
 
 
 def getUsersFromSbText(text):
-    users = re.findall('\[([^\]]*?)\.icon\]', text)
+    users = re.findall(r'\[([^\]]*?)\.icon\]', text)
     return users
 
 
