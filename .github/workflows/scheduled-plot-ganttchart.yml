@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt -y install libcurl4-openssl-dev libssl-dev zlib1g-dev libxml2-dev libpng-dev libjpeg-dev libmagick++-dev fonts-ipafont
+          sudo apt -y install libcurl4-openssl-dev libssl-dev zlib1g-dev libxml2-dev libpng-dev libjpeg-dev libmagick++-dev fonts-ipafont pngquant
 
       - name: Update font cache
         run: fc-list | grep -i ipa
@@ -47,6 +47,9 @@ jobs:
 
       - name: Run RScript
         run: Rscript plot.R
+
+      - name: Optimize png
+        run: pngquant --ext=.png --floyd=1 --speed=1 --verbose --force 256 images/*.png
       
       - name: Diff
         id: diff
