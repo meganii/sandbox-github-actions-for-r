@@ -7,14 +7,28 @@ import urllib
 
 from PIL import Image
 
+USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36'
 
-def getSbText():
-    user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36'
+def getAllSbText():
     header = {
-        'User-Agent': user_agent
+        'User-Agent': USER_AGENT
     }
-    url = "https://scrapbox.io/api/pages/villagepump/アクティブユーザーの移り変わり。/text"
-    return requests.get(url, headers=header).text
+    url = "https://scrapbox.io/api/pages/villagepump/アクティブユーザーの移り変わり。"
+    response = requests.get(url, headers=header).json()
+    links = response['relatedPages']['links1hop']
+
+    sbText = getSbText(url)
+    for link in filter(lambda x: x['title'].startswith("アクティブユーザーの移り変わり"), links):
+        url = f"https://scrapbox.io/api/pages/villagepump/{link['title']}"
+        sbText += getSbText(url)
+
+    return sbText
+
+def getSbText(url):
+    header = {
+        'User-Agent': USER_AGENT
+    }
+    return requests.get(f"{url}/text", headers=header).text
 
 
 def getUsersFromSbText(text):
@@ -60,8 +74,7 @@ def downloadFile(url, dst_path):
         header = {
             "Accept": "*/*",
             "Accept-Encoding": "gzip, deflate",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+            "User-Agent": USER_AGENT
         }
         res = requests.get(url, headers=header)
         if res.status_code == 200:
@@ -86,12 +99,15 @@ def fetchAndSaveImage(url, header, dst_path):
 
             if type == "image/jpeg" or type == "image/gif":
                 im = Image.open(dst_path).convert('RGB')
+                im.resize((96, 96))
                 im.save(dst_path)
 
 
 def main():
     # Create data for Ganttchart
-    sbText = getSbText()
+    sbText = getAllSbText()
+
+    # sbText = getSbText()
     df = getTimelineDataFrameFromSbText(sbText)
     df.to_csv("./data.csv", index=False)
 

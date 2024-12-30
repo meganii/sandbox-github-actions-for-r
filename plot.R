@@ -4,10 +4,15 @@ library(ggimage)
 library(ggtext)
 
 # 前処理したdata.csvを読み取り、初期化
-df <- read_csv('data.csv') %>%
+df <- read_csv(
+  'data.csv',
+  col_types = cols(
+    Name = col_character(),
+    Date = col_date(format = "%Y-%m-%d")
+  )) %>%
+  arrange(Date, Name) %>%
   group_by(Name) %>%
   mutate(
-    Date = as.Date(Date),
     End = dplyr::if_else((Date + months(1)) == lead(Date), lead(Date), ymd(NA)),
     Start = dplyr::if_else(is.na(End), ymd(NA), Date)
   )
