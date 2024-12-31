@@ -3,7 +3,13 @@
 .Rhistory
 .RData
 .Ruserdata
+.cache
+.local
+.config
 data.csv
 
 # For Python
 .venv
+
+# For macOS
+.DS_Store
